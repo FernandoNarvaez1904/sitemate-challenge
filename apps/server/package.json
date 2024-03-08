@@ -1,28 +1,29 @@
 {
   "name": "server",
+  "type": "module",
   "version": "0.1.0",
   "scripts": {
-    "dev": "wrangler dev src/index.ts",
-    "deploy": "wrangler deploy --minify src/index.ts",
+    "dev": "tsx src/index.ts",
     "format": "prettier --check . --ignore-path ../../.gitignore --ignore-path .prettierignore",
     "lint": "eslint ."
   },
   "dependencies": {
+    "@hono/node-server": "^1.8.2",
     "@trpc/server": "11.0.0-next-beta.294",
     "db": "workspace:*",
     "hono": "^4.0.9",
     "superjson": "^2.2.1",
+    "ts-node": "^10.9.2",
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20240208.0",
     "@repo/eslint-config": "workspace:*",
     "@repo/prettier-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "eslint": "^8.57.0",
     "prettier": "^3.2.5",
-    "typescript": "^5.3.3",
-    "wrangler": "^3.25.0"
+    "tsx": "^4.7.1",
+    "typescript": "^5.3.3"
   },
   "eslintConfig": {
     "root": true,

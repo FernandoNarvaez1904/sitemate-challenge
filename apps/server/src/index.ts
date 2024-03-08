@@ -1,3 +1,4 @@
+import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 
@@ -24,4 +25,7 @@ app.use(
   }),
 );
 
-export default app;
+serve({
+  fetch: app.fetch,
+  port: 8787, // Port number, default is 3000
+});

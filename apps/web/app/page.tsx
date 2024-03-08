@@ -1,8 +1,12 @@
-"use client";
-
-import { trpc } from "./_trpc/trpc";
+import CreateIssueFrom from "./_components/create-issue-form";
 
 export default function Home() {
-  const { data } = trpc.sayName.useQuery();
-  return <p>Hello {data?.name}</p>;
+  return (
+    <div>
+      <div className="flex">
+        <h2 className="text-lg">Create New Issue</h2>
+        <CreateIssueFrom />
+      </div>
+    </div>
+  );
 }

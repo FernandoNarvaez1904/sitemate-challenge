@@ -12,6 +12,7 @@
     "./alert": "./src/components/ui/alert.tsx",
     "./form": "./src/components/ui/form.tsx",
     "./tooltip": "./src/components/ui/tooltip.tsx",
+    "./textarea": "./src/components/ui/textarea.tsx",
     "./postcss.config": "./postcss.config.js",
     "./tailwind.config": "./tailwind.config.js",
     "./shadcn.css": "./shadcn.css"
