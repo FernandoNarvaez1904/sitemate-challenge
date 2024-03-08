@@ -2,6 +2,10 @@
   "name": "db",
   "version": "0.0.0",
   "private": true,
+  "exports": {
+    ".": "./index.ts",
+    "./schema": "./schema.ts"
+  },
   "scripts": {
     "dev": "dotenv drizzle-kit studio",
     "format": "prettier --check . --ignore-path ../../.gitignore",
