@@ -12,7 +12,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@repo/shadcn/form";
 import { Input } from "@repo/shadcn/input";
@@ -28,7 +27,13 @@ function CreateIssueFrom() {
     resolver: zodResolver(createFormSchema),
   });
 
-  const { mutate: createIssue, isPending } = trpc.createIssue.useMutation();
+  const trpcUtils = trpc.useUtils();
+
+  const { mutate: createIssue, isPending } = trpc.createIssue.useMutation({
+    onSuccess: () => {
+      void trpcUtils.getAllIssues.refetch();
+    },
+  });
 
   const onSubmit = form.handleSubmit((data) => {
     createIssue(data);
@@ -36,13 +41,13 @@ function CreateIssueFrom() {
 
   return (
     <Form {...form}>
-      <form onSubmit={onSubmit} className="space-y-2">
+      <form onSubmit={onSubmit} className="flex items-center  gap-2 space-y-2">
+        <h2 className="text-lg">Create New Issue</h2>
         <FormField
           control={form.control}
           name="title"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Title</FormLabel>
               <FormControl>
                 <Input placeholder="My Issue" {...field} />
               </FormControl>
@@ -55,7 +60,6 @@ function CreateIssueFrom() {
           name="description"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Title</FormLabel>
               <FormControl>
                 <Textarea placeholder="My Issue is..." {...field} />
               </FormControl>
