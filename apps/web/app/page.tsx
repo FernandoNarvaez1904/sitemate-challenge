@@ -1,46 +1,20 @@
 "use client";
 
 import { Button } from "@repo/shadcn/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@repo/shadcn/card";
 
-import CreateIssueFrom from "./_components/create-issue-form";
-import { trpc } from "./_trpc/trpc";
+import CreateIssueDialog from "./_components/create-issue-dialog";
+import Issues from "./_components/issues";
 
 export default function Home() {
-  const { data } = trpc.getAllIssues.useQuery();
-
-  const trpcUtils = trpc.useUtils();
-
-  const { mutate: deleteIssue } = trpc.deleteIssue.useMutation({
-    onSettled: () => {
-      void trpcUtils.getAllIssues.invalidate();
-    },
-  });
-
   return (
     <div>
-      <div className="flex flex-col gap-2">
-        <CreateIssueFrom />
+      <div className="flex flex-col gap-4">
+        <div className="flex items-center gap-4">
+          <h2 className="text-2xl font-medium tracking-tight">Issue Tracker</h2>
+          <CreateIssueDialog trigger={<Button>Create Issue</Button>} />
+        </div>
         <div className="flex grow flex-wrap gap-2">
-          {data?.map((issue) => (
-            <Card key={issue.id} className="">
-              <CardHeader>
-                <CardTitle>{issue.title}</CardTitle>
-              </CardHeader>
-              <CardContent>{issue.description}</CardContent>
-              <CardFooter>
-                <Button onClick={() => deleteIssue({ id: issue.id })}>
-                  Delete Issue
-                </Button>
-              </CardFooter>
-            </Card>
-          ))}
+          <Issues />
         </div>
       </div>
     </div>

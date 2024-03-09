@@ -17,19 +17,26 @@ import {
 import { Input } from "@repo/shadcn/input";
 import { Textarea } from "@repo/shadcn/textarea";
 
-const createFormSchema = z.object({
+const updateFormSchema = z.object({
   title: z.string().min(1).max(255),
   description: z.string().min(1),
 });
 
-function CreateIssueForm({ onSuccess }: { onSuccess?: () => void }) {
-  const form = useForm<z.infer<typeof createFormSchema>>({
-    resolver: zodResolver(createFormSchema),
+export interface UpdateIssueFormProps {
+  onSuccess?: () => void;
+  id: number;
+  defaultData: z.infer<typeof updateFormSchema>;
+}
+
+function UpdateIssueForm({ onSuccess, id, defaultData }: UpdateIssueFormProps) {
+  const form = useForm<z.infer<typeof updateFormSchema>>({
+    resolver: zodResolver(updateFormSchema),
+    defaultValues: defaultData,
   });
 
   const trpcUtils = trpc.useUtils();
 
-  const { mutate: createIssue, isPending } = trpc.createIssue.useMutation({
+  const { mutate: updateIssue, isPending } = trpc.updateIssue.useMutation({
     onSuccess: () => {
       void trpcUtils.getAllIssues.refetch();
       form.reset();
@@ -40,7 +47,7 @@ function CreateIssueForm({ onSuccess }: { onSuccess?: () => void }) {
   });
 
   const onSubmit = form.handleSubmit((data) => {
-    createIssue(data);
+    updateIssue({ id: id, data });
   });
 
   return (
@@ -70,12 +77,12 @@ function CreateIssueForm({ onSuccess }: { onSuccess?: () => void }) {
             </FormItem>
           )}
         />
-        <Button type="submit" disabled={isPending}>
+        <Button type="submit" disabled={isPending || !form.formState.isDirty}>
           {isPending && <RotateCw className="mr-2 size-4 animate-spin" />}
-          Create Issue
+          Update Issue
         </Button>
       </form>
     </Form>
   );
 }
-export default CreateIssueForm;
+export default UpdateIssueForm;
