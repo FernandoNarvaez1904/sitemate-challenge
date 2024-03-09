@@ -11,8 +11,8 @@ import { jotaiStore } from "./jotai";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Storefront POS",
-  description: "Storefront POS",
+  title: "Issue Tracker",
+  description: "A challenge that will get me hired :)",
 };
 
 export default function RootLayout({
